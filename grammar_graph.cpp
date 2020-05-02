@@ -23,7 +23,7 @@ dialog =gtk_dialog_new_with_buttons("Режим",NULL,flags,GTK_STOCK_OK,GTK_RES
 
 
 int main (int argc, char *argv[]) {
-	GtkWidget *window, *vbox, *hbox1,*hbox2,*hbox3, *button1, *button2, 		*button3, *button4,*button5, *button6;
+	GtkWidget *window, *vbox, *hbox1,*hbox2,*hbox3,*hbox4, *button1, *button2, 		*button3, *button4,*button5, *button6, *label1, *label2;
 
 	gtk_init (&argc, &argv);
 
@@ -36,23 +36,29 @@ int main (int argc, char *argv[]) {
 
 	hbox1 = gtk_hbox_new (TRUE, 3);
 	hbox2 = gtk_hbox_new (TRUE, 3);
-	hbox3 = gtk_hbox_new (TRUE, 3); 
+	hbox3 = gtk_hbox_new (TRUE, 3);
+	hbox4 = gtk_hbox_new (TRUE, 3); 
 	gtk_box_pack_start (GTK_BOX (vbox), hbox1, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox2, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox3, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox4, FALSE, FALSE, 0);
 	button1 = gtk_button_new_with_label ("Режим");
 	g_signal_connect(GTK_BUTTON(button1), "clicked", G_CALLBACK(sett), 							NULL);
 	gtk_box_pack_start (GTK_BOX (hbox1), button1, FALSE, FALSE, 0);
 	button2 = gtk_button_new_with_label ("%Answer1%");
-	gtk_box_pack_start (GTK_BOX (hbox2), button2, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox3), button2, FALSE, FALSE, 0);
 	button3 = gtk_button_new_with_label ("%Answer2%");
-	gtk_box_pack_start (GTK_BOX (hbox2), button3, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox3), button3, FALSE, FALSE, 0);
 	button4 = gtk_button_new_with_label ("%Answer3%");
-	gtk_box_pack_start (GTK_BOX (hbox2), button4, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox4), button4, FALSE, FALSE, 0);
 	button5 = gtk_button_new_with_label ("%Answer4%");
-	gtk_box_pack_start (GTK_BOX (hbox2), button5, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox4), button5, FALSE, FALSE, 0);
 	button6 = gtk_button_new_with_label ("STOP");
-	gtk_box_pack_start (GTK_BOX (hbox3), button6, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), button6, FALSE, FALSE, 0);
+	label1 = gtk_label_new("Счет: ");
+	label2 = gtk_label_new("%Word%");
+	gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
 	gtk_widget_show_all (window);
 
 	gtk_main ();
