@@ -1,29 +1,39 @@
 #include <gtk/gtk.h>
-
+GtkWidget *radiobutton1, *radiobutton2;
 static gboolean close (GtkWidget *widget, GdkEvent* event, gpointer *data) {
 	gtk_main_quit ();
 	return FALSE;
 }
+void add_widget_with_label(GtkContainer *box, gchar *caption, GtkWidget *widget)
+{
+    GtkWidget *label = gtk_label_new(caption);
+    GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 
+    gtk_label_set_width_chars(GTK_LABEL(label), 15);
+
+    gtk_container_add(GTK_CONTAINER(hbox), label);
+    gtk_container_add(GTK_CONTAINER(hbox), widget);
+
+    gtk_container_add(box, hbox);
+}
 void sett(GtkButton *button, gpointer data){
-	GtkWidget *dialog, *button1, *button2, *content_area;
+	GtkWidget *dialog, *radiobutton1, *radiobutton2, *content_area;
 	GtkDialogFlags flags;
 	flags = GTK_DIALOG_DESTROY_WITH_PARENT;
 dialog =gtk_dialog_new_with_buttons("Режим",NULL,flags,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-	button1 = gtk_button_new_with_label("Заучивание");
-	button2 = gtk_button_new_with_label("Повторение");
-	gtk_container_add(GTK_CONTAINER(content_area),button1);
-	gtk_container_add(GTK_CONTAINER(content_area),button2);
-	gtk_widget_show(button1);
-	gtk_widget_show(button2);
+	radiobutton1 = gtk_radio_button_new(NULL);
+    radiobutton2 = gtk_radio_button_new_from_widget(GTK_RADIO_BUTTON(radiobutton1));
+	add_widget_with_label(GTK_CONTAINER(content_area), "Заучивание", radiobutton1);
+	add_widget_with_label(GTK_CONTAINER(content_area), "Повторение", radiobutton2);
+	gtk_widget_show_all(content_area);
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
 }
 
 
 int main (int argc, char *argv[]) {
-	GtkWidget *window, *vbox, *hbox1,*hbox2,*hbox3,*hbox4, *button1, *button2, 		*button3, *button4,*button5, *button6, *label1, *label2;
+	GtkWidget *window, *vbox, *hbox1,*hbox2,*hbox3,*hbox4, *button1, *button2, *button3, *button4,*button5, *button6, *label1, *label2;
 
 	gtk_init (&argc, &argv);
 
@@ -44,7 +54,7 @@ int main (int argc, char *argv[]) {
 	gtk_box_pack_start (GTK_BOX (vbox), hbox4, FALSE, FALSE, 0);
 	button1 = gtk_button_new_with_label ("Режим");
 	g_signal_connect(GTK_BUTTON(button1), "clicked", G_CALLBACK(sett), 							NULL);
-	gtk_box_pack_start (GTK_BOX (hbox1), button1, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox1),button1, FALSE, FALSE, 0);
 	button2 = gtk_button_new_with_label ("%Answer1%");
 	gtk_box_pack_start (GTK_BOX (hbox3), button2, FALSE, FALSE, 0);
 	button3 = gtk_button_new_with_label ("%Answer2%");
