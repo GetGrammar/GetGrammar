@@ -5,87 +5,86 @@
 #include <time.h>
 using namespace std;
 
-void find_dictionary_name(char*& name, int number, int lang)
+string find_word(int num, int mode)
 {
-    if (lang == 0) {
-        switch (number) {
-        case 1:
-            name = "dictionaries/rus_1.txt";
-            break;
-        case 2:
-            name = "dictionaries/rus_2.txt";
-            break;
-        case 3:
-            name = "dictionaries/rus_3.txt";
-            break;
-        case 4:
-            name = "dictionaries/rus_4.txt";
-            break;
-        case 5:
-            name = "dictionaries/rus_5.txt";
-            break;
-        case 6:
-            name = "dictionaries/rus_6.txt";
-            break;
-        case 7:
-            name = "dictionaries/rus_7.txt";
-            break;
+    ifstream in;
+    if (mode == 0)
+        in.open("dictionaries/rus.txt");
+    else
+        in.open("dictionaries/eng.txt");
+    string a;
+    for (int i = 0; i <= num; ++i) {
+        getline(in, a);
+    }
+    in.close();
+    return a;
+}
+
+bool is_repeat(int* mas, int n)
+{
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            if (mas[i] == mas[j])
+                return false;
         }
     }
-    if (lang == 1) {
-        switch (number) {
-        case 1:
-            name = "dictionaries/eng_1.txt";
-            break;
-        case 2:
-            name = "dictionaries/eng_2.txt";
-            break;
-        case 3:
-            name = "dictionaries/eng_3.txt";
-            break;
-        case 4:
-            name = "dictionaries/eng_4.txt";
-            break;
-        case 5:
-            name = "dictionaries/eng_5.txt";
-            break;
-        case 6:
-            name = "dictionaries/eng_6.txt";
-            break;
-        case 7:
-            name = "dictionaries/eng_7.txt";
-            break;
+    return true;
+}
+
+bool is_repeat(int* mas, int n, int current)
+{
+    for (int i = 0; i < n; ++i) {
+        if (mas[i] == current)
+            return false;
+    }
+    return true;
+}
+
+void get_mass(int a[], int n, int size)
+{
+    srand(time(0));
+    a[0] = rand() % n;
+    for (int i = 1; i < size; ++i) {
+        while (true) {
+            a[i] = rand() % n;
+            if (is_repeat(a, i + 1))
+                break;
         }
     }
 }
 
-void get_correct_words_for_first_mode(
-        string& rus_correct, string& eng_correct, int dict_number, int sector)
+void get_mass(int a[], int n, int size_a, int b[], int size_b)
 {
     srand(time(0));
-    int num_rand;
-    char* name_rus;
-    char* name_eng;
-    find_dictionary_name(name_rus, dict_number, 0);
-    find_dictionary_name(name_eng, dict_number, 1);
-    ifstream rus, eng;
-    string a, rus_correct_1, eng_correct_1;
-    rus.open(name_rus);
-    eng.open(name_eng);
-    if (sector == 9)
-        num_rand = 630 + rand() % 66;
-    else
-        num_rand = 70 * sector + rand() % 70;
-    for (int i = 0; i < num_rand; ++i) {
-        getline(rus, a);
-        getline(eng, a);
+    while (true) {
+        b[0] = rand() % n;
+        if (is_repeat(a, size_a, b[0]))
+            break;
     }
-    getline(rus, rus_correct_1);
-    getline(eng, eng_correct_1);
-    rus_correct = rus_correct_1;
-    eng_correct = eng_correct_1;
-    eng.close();
-    rus.close();
+    for (int i = 1; i < size_b; ++i) {
+        while (true) {
+            b[i] = rand() % n;
+            if (is_repeat(a, size_a, b[i]) && is_repeat(b, i + 1))
+                break;
+        }
+    }
+}
+void get_correct_words_for_first_mode(
+        int mas[], string correct_rus[], string correct_eng[], int size)
+{
+    ifstream in;
+    in.open("dictionaries/rus.txt");
+    string a;
+    int n = 0;
+    while (getline(in, a)) {
+        n++;
+    }
+    in.close();
+    get_mass(mas, n, size);
+    for (int i = 0; i < size; ++i) {
+        correct_rus[i] = find_word(mas[i], 0);
+        correct_eng[i] = find_word(mas[i], 1);
+    }
 }
 
 void get_words_for_second_mode(
@@ -142,44 +141,23 @@ void get_words_for_second_mode(
     }
 }
 
-void get_incorrect_words(string& in1, string& in2, string& in3, int dict_number)
+void get_incorrect_words_for_first_mode(
+        int mas[],
+        int mas_inc[],
+        string incorrect[],
+        int size_mas,
+        int size_mas_inc)
 {
-    int rand_num_1 = rand() % 600;
-    int rand_num_2 = rand() % rand_num_1;
-    int rand_num_3 = rand_num_1 + rand() % (696 - rand_num_1);
-    char* name_eng;
+    ifstream in;
+    in.open("eng_1.txt");
     string a;
-    ifstream eng;
-    find_dictionary_name(name_eng, dict_number, 1);
-    eng.open(name_eng);
-    for (int i = 0; i < rand_num_3; ++i) {
-        if (i == rand_num_1 || i == rand_num_2) {
-            if (i == rand_num_1) {
-                getline(eng, a);
-                in1 = a;
-            } else {
-                getline(eng, a);
-                in2 = a;
-            }
-        } else
-            getline(eng, a);
+    int n;
+    while (getline(in, a)) {
+        n++;
     }
-    getline(eng, a);
-    in3 = a;
-    eng.close();
-}
-
-void correct_init(string a[10], string b[10], string c[30])
-{
-    srand(time(0));
-    int dict_number = rand() % 7 + 1;
-    for (int i = 0; i < 10; ++i) {
-        get_correct_words_for_first_mode(a[i], b[i], dict_number, i);
+    in.close();
+    get_mass(mas, n, size_mas, mas_inc, size_mas_inc);
+    for (int i = 0; i < size_mas_inc; ++i) {
+        incorrect[i] = find_word(mas_inc[i], 1);
     }
-    int incorrect_dict_number = dict_number;
-    while (dict_number == incorrect_dict_number)
-        incorrect_dict_number = rand() % 7 + 1;
-    for (int i = 0; i < 10; ++i)
-        get_incorrect_words(
-                c[3 * i], c[3 * i + 1], c[3 * i + 2], incorrect_dict_number);
 }
