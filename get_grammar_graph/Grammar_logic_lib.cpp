@@ -5,7 +5,7 @@
 #include <time.h>
 using namespace std;
 
-string find_word(int num, int mode)
+string find_word(int *mas,int size, string words[], int mode)
 {
     ifstream in;
     if (mode == 0)
@@ -13,8 +13,14 @@ string find_word(int num, int mode)
     else
         in.open("dictionaries/eng.txt");
     string a;
-    for (int i = 0; i <= num; ++i) {
-        getline(in, a);
+    int k = 0,i = 0;
+    while(k < mas[size - 1] + 2){
+        getline(in,a);
+        if(k == mas[i]){
+            words[i] = a;
+            i++;
+        }
+        k++;
     }
     in.close();
     return a;
@@ -40,6 +46,18 @@ bool is_repeat(int* mas, int n, int current)
     return true;
 }
 
+void sort(int* arr,int size){
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
 void get_mass(int a[], int n, int size)
 {
     srand(time(0));
@@ -51,7 +69,9 @@ void get_mass(int a[], int n, int size)
                 break;
         }
     }
+    sort(a,size);
 }
+
 
 void get_mass(int a[], int n, int size_a, int b[], int size_b)
 {
@@ -68,6 +88,7 @@ void get_mass(int a[], int n, int size_a, int b[], int size_b)
                 break;
         }
     }
+    sort(b,size_b);
 }
 void get_correct_words_for_first_mode(
         int mas[], string correct_rus[], string correct_eng[], int size)
@@ -81,10 +102,8 @@ void get_correct_words_for_first_mode(
     }
     in.close();
     get_mass(mas, n, size);
-    for (int i = 0; i < size; ++i) {
-        correct_rus[i] = find_word(mas[i], 0);
-        correct_eng[i] = find_word(mas[i], 1);
-    }
+    find_word(mas,size,correct_rus,0);
+    find_word(mas,size,correct_eng,1);
 }
 
 void get_words_for_second_mode(
@@ -149,7 +168,7 @@ void get_incorrect_words_for_first_mode(
         int size_mas_inc)
 {
     ifstream in;
-    in.open("eng_1.txt");
+    in.open("dictionaries/eng.txt");
     string a;
     int n;
     while (getline(in, a)) {
@@ -157,7 +176,5 @@ void get_incorrect_words_for_first_mode(
     }
     in.close();
     get_mass(mas, n, size_mas, mas_inc, size_mas_inc);
-    for (int i = 0; i < size_mas_inc; ++i) {
-        incorrect[i] = find_word(mas_inc[i], 1);
-    }
+    find_word(mas_inc,size_mas_inc,incorrect,1);
 }
