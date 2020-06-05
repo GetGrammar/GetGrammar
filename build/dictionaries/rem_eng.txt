@@ -8,3 +8,6 @@ now
 you can
 after
 word
+before
+return
+joy
