@@ -395,3 +395,11 @@ uninstall:  FORCE
 
 FORCE:
 
+test: bin/programa-test
+
+build/programa-test.o: test/main.c build
+	gcc -std=c99 -I thirdparty -I src -c test/main.c -o build/programa-test.o
+
+bin/programa-test: build/programa-test.o build/getgrammar_main.o build/Grammar_logic_lib.o bin
+	gcc -Wall -Werror build/programa-test.o build/getgrammar_main.o build/Grammar_logic_lib.o -lm -o bin/programa-test
+
