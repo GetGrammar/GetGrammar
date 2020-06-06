@@ -2,6 +2,7 @@
 
 #include <ctest.h>
 #include <stdio.h>
+#include <cstring>
 #include "Grammar_logic_lib.h"
 #include "getgrammar_main.h"
 
@@ -33,6 +34,58 @@ CTEST(is_repeat, REPEAT_CURRENT_FALSE)
 {
     int mas[4] = {1, 2, 3, 4};
     bool result = is_repeat(mas, 4, 4);
+
+    ASSERT_FALSE(result);
+}
+
+CTEST(find_word, FIND_MOD_0_TRUE)
+{
+    bool result = false;
+    string a = "";
+    
+    string b = find_word(4, 0);
+    if (a == b){
+        result = true;
+    }
+
+    ASSERT_TRUE(result);
+}
+
+CTEST(find_word, FIND_MOD_0_FALSE)
+{
+    bool result = false;
+    string a = "дом";
+    
+    string b = find_word(4, 0);
+    if (a == b){
+        result = true;
+    }
+
+    ASSERT_FALSE(result);
+}
+
+CTEST(find_word, FIND_MOD_1_TRUE)
+{
+    bool result = false;
+    string a = "";
+    
+    string b = find_word(4, 1);
+    if (a == b){
+        result = true;
+    }
+
+    ASSERT_TRUE(result);
+}
+
+CTEST(find_word, FIND_MOD_1_FALSE)
+{
+    bool result = false;
+    string a = "house";
+    
+    string b = find_word(4, 1);
+    if (a == b){
+        result = true;
+    }
 
     ASSERT_FALSE(result);
 }
