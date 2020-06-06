@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = get_grammar_graph1.0.0
-DISTDIR = /home/alexey/Рабочий\ стол/final/.tmp/get_grammar_graph1.0.0
+DISTDIR = /home/alexey/Рабочий\ стол/ff/.tmp/get_grammar_graph1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
 LIBS          = $(SUBLIBS) -lQt5Widgets -L/usr/X11R6/lib64 -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -51,10 +51,10 @@ OBJECTS_DIR   = ./
 SOURCES       = src/main.cpp \
 		src/getgrammar_main.cpp \
 		src/Grammar_logic_lib.cpp moc_getgrammar_main.cpp
-OBJECTS       = main.o \
-		getgrammar_main.o \
-		Grammar_logic_lib.o \
-		moc_getgrammar_main.o
+OBJECTS       = build/main.o \
+		build/getgrammar_main.o \
+		build/Grammar_logic_lib.o \
+		build/moc_getgrammar_main.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -119,7 +119,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		src/Grammar_logic_lib.cpp
 QMAKE_TARGET  = get_grammar_graph
 DESTDIR       = #avoid trailing-slash linebreak
-TARGET        = get_grammar_graph
+TARGET        = bin/get_grammar_graph
 
 
 first: all
@@ -146,6 +146,7 @@ first: all
 
 $(TARGET):  $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
+
 
 Makefile: src/get_grammar_graph.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -315,7 +316,7 @@ compiler_moc_header_make_all: moc_getgrammar_main.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_getgrammar_main.cpp
 moc_getgrammar_main.cpp: src/getgrammar_main.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I'/home/alexey/Рабочий стол/final/src' -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/getgrammar_main.h -o moc_getgrammar_main.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I'/home/alexey/Рабочий стол/ff/src' -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/getgrammar_main.h -o moc_getgrammar_main.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -331,19 +332,27 @@ compiler_clean: compiler_moc_header_clean
 
 ####### Compile
 
-main.o: src/main.cpp src/getgrammar_main.h \
+build/main.o: src/main.cpp src/getgrammar_main.h \
 		src/Grammar_logic_lib.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o src/main.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/main.o src/main.cpp
 
-getgrammar_main.o: src/getgrammar_main.cpp src/getgrammar_main.h \
+build/getgrammar_main.o: src/getgrammar_main.cpp src/getgrammar_main.h \
 		src/Grammar_logic_lib.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o getgrammar_main.o src/getgrammar_main.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/getgrammar_main.o src/getgrammar_main.cpp
 
-Grammar_logic_lib.o: src/Grammar_logic_lib.cpp src/Grammar_logic_lib.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Grammar_logic_lib.o src/Grammar_logic_lib.cpp
+build/Grammar_logic_lib.o: src/Grammar_logic_lib.cpp src/Grammar_logic_lib.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/Grammar_logic_lib.o src/Grammar_logic_lib.cpp
 
-moc_getgrammar_main.o: moc_getgrammar_main.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_getgrammar_main.o moc_getgrammar_main.cpp
+build/moc_getgrammar_main.o: moc_getgrammar_main.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/moc_getgrammar_main.o moc_getgrammar_main.cpp
+
+test: bin/programa-test
+
+build/programa-test.o: test/test.cpp build
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -I thirdparty -I src -o build/programa-test.o test/test.cpp
+
+bin/programa-test: build/programa-test.o build/Grammar_logic_lib.o bin
+	$(LINK) $(LFLAGS) $(INCPATH) -o bin/programa-test build/programa-test.o build/Grammar_logic_lib.o  $(OBJCOMP) $(LIBS)
 
 ####### Install
 
@@ -352,4 +361,3 @@ install:  FORCE
 uninstall:  FORCE
 
 FORCE:
-
