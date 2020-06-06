@@ -90,6 +90,34 @@ CTEST(find_word, FIND_MOD_1_FALSE)
     ASSERT_FALSE(result);
 }
 
+CTEST(str_to_char, STR_TO_CHAR_TRUE)
+{
+    bool result = false;
+    string s = "a";
+    char a = 'a';
+    
+    char* b = str_to_char(s);
+    if (a == b[0]){
+        result = true;
+    }
+
+    ASSERT_TRUE(result);
+}
+
+CTEST(str_to_char, STR_TO_CHAR_FALSE)
+{
+    bool result = false;
+    string s = "a";
+    char a = 'b';
+    
+    char* b = str_to_char(s);
+    if (a == b[0]){
+        result = true;
+    }
+
+    ASSERT_FALSE(result);
+}
+
 int main(int argc, const char** argv)
 {
     return ctest_main(argc, argv);
