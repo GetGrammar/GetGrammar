@@ -2,4 +2,4 @@
 a.out
 *.o
 moc*.*
-.qmake.*
+.qmake.stash

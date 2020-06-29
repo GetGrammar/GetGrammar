@@ -41,9 +41,9 @@ CTEST(is_repeat, REPEAT_CURRENT_FALSE)
 CTEST(find_word, FIND_MOD_0_TRUE)
 {
     bool result = false;
-    string a = "";
+    string a = "тоже";
     
-    string b = find_word(4, 0);
+    string b = find_word(2, 0);
     if (a == b){
         result = true;
     }
@@ -67,9 +67,9 @@ CTEST(find_word, FIND_MOD_0_FALSE)
 CTEST(find_word, FIND_MOD_1_TRUE)
 {
     bool result = false;
-    string a = "";
+    string a = "see";
     
-    string b = find_word(4, 1);
+    string b = find_word(0, 1);
     if (a == b){
         result = true;
     }
